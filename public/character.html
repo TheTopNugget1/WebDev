@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Character Creation</title>
+  <link rel="stylesheet" href="characterStyle.css">
+  <script src="characterCreate.js" defer></script>
+  <script src="largestImage.js" defer></script>
+</head>
+
+<body>
+  <h1>Create Your Character</h1>
+
+  <div class="character-preview">
+    <a href="assets/char - Copy.png" data-lightbox="char" data-title="My caption">
+      <img src="assets/char - Copy.png" style="height: 100px;">
+      <img src="assets/char1.png" style="height: 100px;">
+    </a>    
+  </div>
+
+  <canvas id="myCanvas" width="400" height="200" style="border: 5px black solid;"></canvas><br>
+
+
+  <div class="character-options">
+    <button class="buttonCharacter" onclick="runRandomScript()">Randomize</button>
+    <button class="buttonCharacter" onclick="saveCharacter()">Save Character</button>
+  </div>
+
+  <a href="game.html" class="button">Play Game</a>
+  <a href="index.html" class="button">Back to Main Page</a>
+
+  <script>
+    function runRandomScript() {
+      fetch('/find-random-image')
+        .then(response => response.text())
+        .then(data => alert(data))
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+
+</body>
+
+</html>

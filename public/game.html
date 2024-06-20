@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>ColourQuest Game</title>
+  <link rel="stylesheet" href="gameStyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+  <script src="app.mjs" type="module" defer></script>
+  <script src="largestImage.js" defer></script>
+</head>
+
+<body class="game">
+  <div class="button-container">
+    <button id="find-image-button" onclick="runLargestScript()">Find Most Recent </button>
+    <button id="find-image-button" onclick="runRandomScript()">Find Random </button>
+    <a href="index.html" class="button">Back to Main Page</a>
+  </div>
+  
+  <script>
+
+    function runLargestScript() {
+      fetch('/find-largest-image')
+        .then(response => response.text())
+        .then(data => alert(data))
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
+    function runRandomScript() {
+      fetch('/find-random-image')
+        .then(response => response.text())
+        .then(data => alert(data))
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
+  </script>
+</body>
+
+</html>

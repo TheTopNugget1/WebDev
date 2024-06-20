@@ -1,0 +1,1 @@
+export const ChosenImage = "char0.png";

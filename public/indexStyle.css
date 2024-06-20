@@ -1,0 +1,97 @@
+body {
+  background: white;
+  color: black;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.Container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "TitleArea TitleArea TitleArea"
+    "LightBoxArea GameButtonArea GameButtonArea"
+    "LightBoxArea CharacterButtonArea CharacterButtonArea";
+  grid-area: 1 / 1 / 2 / 2;
+  width: 80%;
+  border: black 10px solid;  
+  border-style: ridge;
+  padding: 10px;
+}
+
+.LightBoxArea {
+  grid-area: LightBoxArea;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.GameButtonArea {
+  grid-area: GameButtonArea;
+  box-sizing: border-box;
+  padding: 2%;
+}
+
+.CharacterButtonArea {
+  grid-area: CharacterButtonArea; 
+  box-sizing: border-box;
+  padding: 2%;
+}
+
+.TitleArea {
+  grid-area: TitleArea;
+  width: 100%;
+  height: 100%;
+}
+
+h1 {
+  display: block;
+  text-align: center;
+  border: black 5px solid;
+  padding: 2%;
+  margin: 2%;
+}
+
+.main-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  background-color: #1f8c9c;
+
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 3ch;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor:grab;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 2%;
+  margin: 2%;
+
+  width: 96%;
+  height: 96%;
+
+}
+
+img{
+  width: 100%;
+  height: 100%;
+}
+
+a{
+  width: 50%;
+  height: 50%;
+}
