@@ -2,7 +2,7 @@
     text-align: center;
     margin-top: 20px;
 }
-  
+
 .character-options {
     text-align: center;
     margin-top: 20px;
@@ -20,4 +20,39 @@
     cursor: pointer;
     border-radius: 8px;
     width: 70%;
+}
+
+iframe {
+    border: 10px black solid;
+    width: 100%;
+}
+
+img {
+    width: 20%;
+}
+
+div {
+    display: flex;
+    justify-content: center;
+    border: 10px black solid;
+    padding: 15px 32px;
+}
+
+.image-container {
+    display: inline-flex; /* Use inline-flex to shrink wrap content */
+    justify-content: flex-end; /* Align items to the right */
+    padding: 15px; /* Padding around the image */
+    border: 2px solid #000; /* Example border */
+    box-sizing: content-box; /* Ensure padding is outside the border */
+}
+
+.image-container img {
+    display: block; /* Remove any extra space below the image */
+    width: 200px; /* Ensure the image retains its original size */
+}
+
+.button-cont{
+    display: inline-flex;
+    justify-content: flex-end;
+
 }

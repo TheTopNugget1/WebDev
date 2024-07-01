@@ -1,3 +1,13 @@
+<script>
+  // -------------------------------
+  // pgt generated 10%
+  // Hugh generated 80%
+  // James generated 10%
+  // Hugh Understanding 100%
+  // James Understanding 100%
+  // ------------------------------
+</script>
+
 <!doctype html>
 <html lang="en">
 
@@ -6,21 +16,21 @@
   <title>Character Creation</title>
   <link rel="stylesheet" href="characterStyle.css">
   <script src="characterCreate.js" defer></script>
-  <script src="largestImage.js" defer></script>
+  <script src="SelectedImage.js" defer></script>
 </head>
 
 <body>
   <h1>Create Your Character</h1>
 
-  <div class="character-preview">
-    <a href="assets/char - Copy.png" data-lightbox="char" data-title="My caption">
-      <img src="assets/char - Copy.png" style="height: 100px;">
-      <img src="assets/char1.png" style="height: 100px;">
-    </a>    
+
+  <canvas id="myCanvas" width="10" height="10" style="border: 5px black solid;">
+  </canvas><br>
+
+  <div class="image-container">
+    <img class=".image-container" src="assets/char - Copy.png">
   </div>
 
-  <canvas id="myCanvas" width="400" height="200" style="border: 5px black solid;"></canvas><br>
-
+  <div class="button-cont"></div>
 
   <div class="character-options">
     <button class="buttonCharacter" onclick="runRandomScript()">Randomize</button>

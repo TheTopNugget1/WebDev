@@ -1,3 +1,12 @@
+// -------------------------------
+// pgt generated 25%
+// Hugh generated 75%
+// James generated 0%
+// Hugh Understanding 100%
+// James Understanding 0%
+// ------------------------------
+
+
 let bool = true;
 
 function saveCharacter(){
@@ -25,7 +34,4 @@ function saveCharacter(){
 
 function randomizeCharacter(){
 
-    if (bool){
-        const content = `export const largestImage = "char${random}";`;
-    }
 }

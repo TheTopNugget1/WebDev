@@ -1,3 +1,13 @@
+<script>
+  // -------------------------------
+  // pgt generated 10%
+  // Hugh generated 90%
+  // James generated 0%
+  // Hugh Understanding 100%
+  // James Understanding 0%
+  // ------------------------------
+</script>
+
 <!doctype html>
 <html lang="en">
 
@@ -7,33 +17,48 @@
   <link rel="stylesheet" href="gameStyle.css">
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
   <script src="app.mjs" type="module" defer></script>
-  <script src="largestImage.js" defer></script>
+  <script src="SelectedImage.js" defer></script>
 </head>
 
 <body class="game">
   <div class="button-container">
-    <button id="find-image-button" onclick="runLargestScript()">Find Most Recent </button>
-    <button id="find-image-button" onclick="runRandomScript()">Find Random </button>
+    <button id="find-image-button" onclick="runLargestCharScript()">Find Most Recent </button>
+    <button id="find-image-button" onclick="runRandomCharScript()">Find Random Char</button>
+    <button id="find-image-button" onclick="runRandomBlockScript()">Find Random Block</button>
+    <button id="find-image-button" onclick="runLargestBlockScript()">Find Largest Block</button>
     <a href="index.html" class="button">Back to Main Page</a>
   </div>
-  
+
   <script>
 
-    function runLargestScript() {
+    function runLargestCharScript() {
       fetch('/find-largest-image')
         .then(response => response.text())
-        .then(data => alert(data))
         .then(location.reload())
         .catch(error => console.error('Error:', error));
     }
 
-    function runRandomScript() {
+    function runRandomCharScript() {
       fetch('/find-random-image')
         .then(response => response.text())
-        .then(data => alert(data))
         .then(location.reload())
         .catch(error => console.error('Error:', error));
     }
+
+    function runRandomBlockScript() {
+      fetch('/find-random-block')
+        .then(response => response.text())
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
+    function runLargestBlockScript() {
+      fetch('/find-largest-block')
+        .then(response => response.text())
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
 
   </script>
 </body>
