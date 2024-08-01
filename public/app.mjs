@@ -23,18 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const GankImage = document.getElementById('chosen-block-gank');
   const IceImage = document.getElementById('chosen-block-ice');
 
-  if (flatImage && flippedImage && bclImage && bcldImage && bcrImage && bcrdImage && MoveImage && FloatImage && GankImage && IceImage) {
-    flatImage.src = `assets/blocks/${ChosenBlock[0]}`;
-    flippedImage.src = `assets/blocks/${ChosenBlock[1]}`;
-    bclImage.src = `assets/blocks/${ChosenBlock[2]}`;
-    bcldImage.src = `assets/blocks/${ChosenBlock[3]}`;
-    bcrImage.src = `assets/blocks/${ChosenBlock[4]}`;
-    bcrdImage.src = `assets/blocks/${ChosenBlock[5]}`;
-    MoveImage.src = `assets/blocks/${ChosenBlock[6]}`;
-    FloatImage.src = `assets/blocks/${ChosenBlock[7]}`;
-    GankImage.src = `assets/blocks/${ChosenBlock[8]}`;
-    IceImage.src = `assets/blocks/${ChosenBlock[9]}`;
-  }
+  let debugMode = true; // Global variable to track debug state
 
   var config = {
     type: Phaser.AUTO,
@@ -46,10 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
       default: "arcade",
       arcade: {
         gravity: { y: 800 },
-        debug: true , // To show debut stuff
+        debug: debugMode , // To show debut stuff
       },
     },
-    scene: {
+    scene: {  
       preload: preload,
       create: create,
       update: update,
@@ -81,15 +70,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   PlatformData = [
     // Floor platforms
-    { x: 32, y: 830, tag: "flat", scale: 0.5 },
+    { x: 32, y: 830, tag: "flat", scale: 0.5 }, 
     { x: 96, y: 830, tag: "flat", scale: 0.5 },
     { x: 160, y: 830, tag: "flat", scale: 0.5 },
+
+    { x: 280, y: 830, tag: "float", scale: 0.3 },
+    { x: 380, y: 830, tag: "float", scale: 0.3 },
+
     { x: 500, y: 830, tag: "flat", scale: 0.5 },
+
+    { x: 620, y: 830, tag: "float", scale: 0.3 },
+    { x: 720, y: 830, tag: "float", scale: 0.3 },
+
     { x: 840, y: 830, tag: "flat", scale: 0.5 },
+
+    // moving 
+
     { x: 1200, y: 830, tag: "flat", scale: 0.5 },
+
+    // moving 
+
+    { x: 1430, y: 830, tag: "float", scale: 0.3 },
+
+    // New Level
+
+    // vert moving
+
+    { x: 1430, y: 660, tag: "float", scale: 0.3 },
+
+    // moving 
+
+    { x: 900, y: 700, tag: "float", scale: 0.3 },
+
+    // moving
+
+    // bouncing
+
+    // bouncing moving
+
+    // bouncing 
+
+    // bouncing
+
+    // new level
+
+    { x: 20, y: 580, tag: "float", scale: 0.3 },
+
+    { x: 60, y: 425, tag: "float", scale: 0.3 },
+
+    // pushable
+
+    { x: 108, y: 425, tag: "flipped", scale: 0.5 },
+    { x: 172, y: 425, tag: "flipped", scale: 0.5 },
+    { x: 234, y: 425, tag: "flipped", scale: 0.5 },
+    { x: 300, y: 425, tag: "flipped", scale: 0.5 },
+
+
+
     { x: 333, y: 580, tag: "flat", scale: 0.5 },
 
     // Corner platforms
+    /*
+
     { x: 182, y: 830, tag: "bcrd", scale: 0.5 },
     { x: 182, y: 815, tag: "bcr", scale: 0.5 },
     { x: 171, y: 815, tag: "bcl", scale: 0.5 },
@@ -106,27 +148,34 @@ document.addEventListener('DOMContentLoaded', () => {
     { x: 503, y: 560, tag: "bcr", scale: 0.5 },
     { x: 503, y: 580, tag: "bcrd", scale: 0.5 },
 
+    { x: 330, y: 430, tag: "bcl", scale: 0.5},
+    { x: 330, y: 450, tag: "bcld", scale: 0.5 },
+    { x: 350, y: 430, tag: "bcr", scale: 0.5 },
+    { x: 350, y: 450, tag: "bcrd", scale: 0.5 },
+    { x: 330, y: 430, tag: "bcl", scale: 0.5},
+    { x: 330, y: 450, tag: "bcld", scale: 0.5 },
+    { x: 350, y: 430, tag: "bcr", scale: 0.5 },
+    { x: 350, y: 450, tag: "bcrd", scale: 0.5 },
+
+    */
+
     // Floating platforms
-    { x: 280, y: 830, tag: "float", scale: 0.3 },
-    { x: 380, y: 830, tag: "float", scale: 0.25 },
-    { x: 620, y: 830, tag: "float", scale: 0.2 },
-    { x: 720, y: 830, tag: "float", scale: 0.15 },
-    { x: 1430, y: 830, tag: "float", scale: 0.25 },
-    { x: 900, y: 700, tag: "float", scale: 0.25 },
-    { x: 550, y: 625, tag: "float", scale: 0.25 },
-    { x: 1430, y: 660, tag: "float", scale: 0.25 },
-    { x: 60, y: 440, tag: "float", scale: 0.25 },
-    { x: 343, y: 440, tag: "float", scale: 0.25 },
-    { x: 285, y: 580, tag: "float", scale: 0.25 },
-    { x: 510, y: 440, tag: "float", scale: 0.25 },
+    
+    
+    
+    
+    { x: 510, y: 440, tag: "float", scale: 0.3 },
+    
+    
+    
+    { x: 350, y: 425, tag: "float", scale: 0.3 },
+    { x: 285, y: 580, tag: "float", scale: 0.3 },
+    
 
     //flipped platforms
-    { x: 108, y: 441, tag: "flipped", scale: 0.5, rotation: 45 },
-    { x: 172, y: 441, tag: "flipped", scale: 0.5 },
-    { x: 234, y: 441, tag: "flipped", scale: 0.5 },
-    { x: 295, y: 441, tag: "flipped", scale: 0.5 },
-    { x: 397, y: 580, tag: "flipped", scale: 0.5 },
-    { x: 460, y: 580, tag: "flipped", scale: 0.5 },
+    
+    { x: 397, y: 580, tag: "flat", scale: 0.5 },
+    { x: 460, y: 580, tag: "flat", scale: 0.5 },
 
   ];
 
@@ -142,8 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
           .setAngle(data.rotation)
           .setGravityY(0).body.allowGravity;
       }
-      catch{
-        console.error(error, "5");
+      catch(err){
+        console.error("Error creating platforms: ", err);
         platforms.setAngle(0);
       }
     });
@@ -257,18 +306,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function preload() {
     // Load other assets
 
-    this.load.image("float", `assets/blocks/${ChosenBlock[7]}`);
-    this.load.image("bounce", `assets/blocks/${ChosenBlock[9]}`);
-    this.load.image("gank", `assets/blocks/${ChosenBlock[8]}`);
-    this.load.image("move", `assets/blocks/${ChosenBlock[6]}`);
+    this.load.image("bcl", `assets/blocks/${ChosenBlock[0]}`);
+    this.load.image("bcld", `assets/blocks/${ChosenBlock[1]}`);
+    this.load.image("bcr", `assets/blocks/${ChosenBlock[2]}`);
+    this.load.image("bcrd", `assets/blocks/${ChosenBlock[3]}`);
+    this.load.image("bounce", `assets/blocks/${ChosenBlock[8]}`);
     this.load.image("dust", "assets/dust01.png");
-
-    this.load.image("flat", `assets/blocks/${ChosenBlock[0]}`);
-    this.load.image("flipped", `assets/blocks/${ChosenBlock[1]}`);
-    this.load.image("bcr", `assets/blocks/${ChosenBlock[4]}`);
-    this.load.image("bcl", `assets/blocks/${ChosenBlock[2]}`);
-    this.load.image("bcld", `assets/blocks/${ChosenBlock[3]}`);
-    this.load.image("bcrd", `assets/blocks/${ChosenBlock[5]}`);
+    this.load.image("flat", `assets/blocks/${ChosenBlock[4]}`);
+    this.load.image("flipped", `assets/blocks/${ChosenBlock[5]}`);
+    this.load.image("float", `assets/blocks/${ChosenBlock[6]}`);
+    this.load.image("gank", `assets/blocks/${ChosenBlock[7]}`);
+    this.load.image("move", `assets/blocks/${ChosenBlock[9]}`);
+    
 
     this.load.spritesheet('charTest', `assets/${ChosenImage}`, {
       frameWidth: 22,
@@ -277,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     this.load.spritesheet('char', "assets/char4.png", {
       frameWidth: 22,
-      frameHeight: 32,
+      frameHeight: 42,
     });
   }
 
@@ -287,9 +336,9 @@ document.addEventListener('DOMContentLoaded', () => {
       GenerateDebug(this);
     }
 
-    player = this.physics.add.sprite(45, 770, 'charTest').setScale(1).setBounce(0.0).setCollideWorldBounds(false);
+    player = this.physics.add.sprite(45, 770, 'char').setScale(1).setBounce(0.0).setCollideWorldBounds(false);
 
-    GeneratePlayerAnimations(this, 'charTest');
+    GeneratePlayerAnimations(this, 'char');
 
     // Create particle emitter
     this.dustEmitter = this.add.particles("dust").createEmitter({
@@ -306,10 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
     DebugText_DeathCount = this.add
       .text(10, 10, "", { font: "40px Arial", fill: "#34AD07" })
       .setAlpha(0.7);
+
     DebugText_XandY = this.add.text(10, 70, "", { fill: "#00ff00" });
+
     DebugText_Timer = this.add
       .text(10, 40, "Time: 0", { font: "40px Arial", fill: "#ff0000" })
       .setAlpha(0.7);
+
     DebugText_XandYPlayer = this.add.text(10, 10, "", { fill: "#00ff00" });
 
     startTime = this.time.now;
@@ -319,11 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Generate platforms using PlatformData
     platforms = GeneratePlatforms(this, PlatformData);
-
-    
-
-    //this creates the key inputs for the movment and the reset
-    cursors = this.input.keyboard.createCursorKeys();
 
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(player, bounce);
@@ -337,9 +384,14 @@ document.addEventListener('DOMContentLoaded', () => {
     this.physics.add.collider(player, vertgank);
     this.physics.add.collider(player, move);
     this.physics.add.collider(move, platforms);
+
+    //this creates the key inputs for the movment and the reset
+    cursors = this.input.keyboard.createCursorKeys();
+
   }
 
   function update() {
+
     // Trigger the dust effect when the player jumps
     if (cursors.up.isDown && player.body.touching.down) {
       this.dustEmitter.setPosition(player.x, player.y + player.height / 2); // Set the position at player's feet
@@ -379,10 +431,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //upside down gravity
-    if (player.y < 530) {
+    if (player.y < 520) {
       player.setGravityY(-1600);
       player.flipY = true;
-    } else if (player.y > 530) {
+    } else if (player.y > 520) {
       player.setGravityY(0);
       player.flipY = false;
     }

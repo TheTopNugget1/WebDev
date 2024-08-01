@@ -1,106 +1,51 @@
-/* ------------------------------- */
-/* pgt generated 0% */
-/* Hugh generated 0% */
-/* James generated 100% */
-/* Hugh Understanding 100% */
-/* James Understanding 100% */
-/* ------------------------------- */
-
-
 body {
-  background: white;
-  color: black;
+  margin: 0;
+  background: #141c2c;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
 }
 
-.Container {
+.container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "TitleArea TitleArea TitleArea"
-    "LightBoxArea GameButtonArea GameButtonArea"
-    "LightBoxArea CharacterButtonArea CharacterButtonArea";
-  grid-area: 1 / 1 / 2 / 2;
-  width: 80%;
-  border: black 10px solid;  
-  border-style: ridge;
+  grid-template-rows: auto auto;
+  gap: 10px;
+  width: 95%;
+  height: 95%;
   padding: 10px;
+  background: #040c1c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.LightBoxArea {
-  grid-area: LightBoxArea;
-  display: flex;
+
+.button-name {
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-}
-
-.GameButtonArea {
-  grid-area: GameButtonArea;
-  box-sizing: border-box;
-  padding: 2%;
-}
-
-.CharacterButtonArea {
-  grid-area: CharacterButtonArea; 
-  box-sizing: border-box;
-  padding: 2%;
-}
-
-.TitleArea {
-  grid-area: TitleArea;
-  width: 100%;
-  height: 100%;
-}
-
-h1 {
-  display: block;
-  text-align: center;
-  border: black 5px solid;
-  padding: 2%;
-  margin: 2%;
-}
-
-.main-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.button {
-  background-color: #1f8c9c;
-
-  color: white;
-  text-align: center;
+  color: #D6D6E7;
+  background-color: #1d3653;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,
+              rgba(45, 35, 66, 0.15) 0 7px 13px -3px,
+              #D6D6E7 0 -3px 0 inset;
+  cursor: pointer;
   text-decoration: none;
-  font-size: 3ch;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  cursor:grab;
-  border-radius: 8px;
-  box-sizing: border-box;
-  padding: 2%;
-  margin: 2%;
-
-  width: 96%;
-  height: 96%;
-
+  font-size: 1.2em;
+  transition: box-shadow 0.15s, transform 0.15s;
 }
 
-img{
-  width: 100%;
-  height: 100%;
+.button-name:hover {
+  box-shadow: rgba(45, 35, 66, 0.3) 0 4px 8px,
+              rgba(45, 35, 66, 0.2) 0 7px 13px -3px,
+              #d6d6e7 0 -3px 0 inset;
+  transform: translateY(-2px);
 }
 
-a{
-  width: 50%;
-  height: 50%;
+.button-name:active {
+  box-shadow: #d6d6e7 0 3px 7px inset;
+  transform: translateY(2px);
 }
