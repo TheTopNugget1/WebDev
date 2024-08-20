@@ -1,51 +1,81 @@
 body {
-  margin: 0;
-  background: #141c2c;
+  background: #2596be;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  font-family: Arial, sans-serif;
+  margin: 0;
 }
 
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-rows: 0.2fr 1fr;
   gap: 10px;
   width: 95%;
   height: 95%;
+  overflow: hidden;
   padding: 10px;
-  background: #040c1c;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
+.photo img {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+  background-size: contain;
+  overflow: hidden;
+  border-radius: 5px;
+}
 
-.button-name {
-  display: inline-flex;
+.photo div {
+  overflow: hidden;
+}
+
+.photo img:hover {
+  opacity: 0.3;
+}
+
+.title {
+  color: #2587be;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.2em;
+}
+
+.title-area {
+  background: #d9cfc9;
+  grid-column: 1 / 4;
+  display: flex;
   justify-content: center;
   align-items: center;
-  color: #D6D6E7;
-  background-color: #1d3653;
-  border-radius: 4px;
-  border-width: 0;
+  color: white;
+  border-radius: 8px;
   box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,
               rgba(45, 35, 66, 0.15) 0 7px 13px -3px,
               #D6D6E7 0 -3px 0 inset;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 1.2em;
-  transition: box-shadow 0.15s, transform 0.15s;
 }
 
-.button-name:hover {
-  box-shadow: rgba(45, 35, 66, 0.3) 0 4px 8px,
-              rgba(45, 35, 66, 0.2) 0 7px 13px -3px,
-              #d6d6e7 0 -3px 0 inset;
-  transform: translateY(-2px);
+h1 {
+  margin: 0;
+  font-size: 2em;
+  text-align: center;
 }
 
-.button-name:active {
-  box-shadow: #d6d6e7 0 3px 7px inset;
-  transform: translateY(2px);
+.area {
+  background: #25a5be;
+  border-radius: 8px;
+  box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,
+              rgba(45, 35, 66, 0.15) 0 7px 13px -3px,
+              #D6D6E7 0 -3px 0 inset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: white;
+  font-family: "Great vibes", fantasy;
+  font-size: 1.5em;
 }

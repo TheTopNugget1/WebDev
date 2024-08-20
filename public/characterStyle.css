@@ -44,6 +44,10 @@ body {
   border: 5px solid black;
   margin-top: 20px;
 }
+.single{
+  width: 44px;
+  height: 84px;
+}
 
 .alpaca-part {
   position: absolute;

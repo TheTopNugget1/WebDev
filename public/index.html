@@ -8,137 +8,32 @@
   <link rel="stylesheet" href="indexStyle.css" />
   <link href="C:/Users/H.P.Webber/node_modules/lightbox2/dist/css/lightbox.css" rel="stylesheet" />
 
-  <style>
-    /* Inline styles for demonstration purposes */
-    body {
-      background: #141c2c;
-      color: black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      background: #040c1c;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 0.3fr 1fr 1fr;
-      gap: 10px;
-      width: 95%;
-      height: 95%;
-      padding: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .title-area {
-      background: #1d3653;
-      grid-column: 1 / 4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      border-radius: 8px;
-      box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,
-                  rgba(45, 35, 66, 0.15) 0 7px 13px -3px,
-                  #D6D6E7 0 -3px 0 inset;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 2em;
-      text-align: center;
-    }
-
-    .area {
-      background: #1d3653;
-      border-radius: 8px;
-      box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,
-                  rgba(45, 35, 66, 0.15) 0 7px 13px -3px,
-                  #D6D6E7 0 -3px 0 inset;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      color: #D6D6E7;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 1.2em;
-    }
-
-    .button-name {
-      appearance: none;
-      background-color: #1d3653;
-      border-radius: 4px;
-      border-width: 0;
-      box-shadow: rgba(45, 35, 66, 0.2) 0 2px 4px,
-                  rgba(45, 35, 66, 0.15) 0 7px 13px -3px,
-                  #D6D6E7 0 -3px 0 inset;
-      box-sizing: border-box;
-      color: #D6D6E7;
-      cursor: pointer;
-      display: inline-flex;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 1.2em;
-      height: 48px;
-      justify-content: center;
-      line-height: 1;
-      padding-left: 16px;
-      padding-right: 16px;
-      text-decoration: none;
-      transition: box-shadow .15s, transform .15s;
-      user-select: none;
-      width: 100%;
-      max-width: 300px;
-      text-align: center;
-    }
-
-    .button-name:focus {
-      box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
-                  rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
-                  #D6D6E7 0 -3px 0 inset;
-    }
-
-    .button-name:hover {
-      box-shadow: rgba(45, 35, 66, 0.3) 0 4px 8px,
-                  rgba(45, 35, 66, 0.2) 0 7px 13px -3px,
-                  #D6D6E7 0 -3px 0 inset;
-      transform: translateY(-2px);
-    }
-
-    .button-name:active {
-      box-shadow: #D6D6E7 0 3px 7px inset;
-      transform: translateY(2px);
-    }
-  </style>
 </head>
 
 <body>
   <div class="container">
     <div class="area" style="grid-column: 1 / 2; grid-row: 1 / 2;">
-      <a href="about.html" class="button-name">About Us</a>
+      <a class="button-name">About Us</a>
     </div>
 
     <div class="area" style="grid-column: 2 / 3; grid-row: 1 / 2;">
-      <a href="character.html" class="button-name">Create Character</a>
+      <a class="button-name">Create Character</a>
     </div>
 
     <div class="area" style="grid-column: 3 / 3; grid-row: 1 / 2;">
-      <a href="game.html" class="button-name">Play Game</a>
+      <a class="button-name">Play Game</a>
     </div>
 
-    <div class="area" style="grid-column: 1 / 2; grid-row: 2 / 2;">
-      <a href="#" class="button-name"><img src="assets/char0.png"></a>
-      
+    <div class="photo" style="grid-column: 1 / 2; grid-row: 2 / 2;">
+      <a href="about.html"><img src="assets/controller.png" alt="controller" style="width:100%; height:auto;">
     </div>
 
-    <div class="area" style="grid-column: 2 / 3; grid-row: 2 / 2;">
-      <a href="#" class="button-name">Placeholder 2</a>
+    <div class="photo" style="grid-column: 2 / 3; grid-row: 2 / 2;">
+      <a href="character.html"><img src="assets/controller.png" alt="controller" style="width:100%; height:auto;">
     </div>
 
-    <div class="area" style="grid-column: 3 / 3; grid-row: 2 / 2;">
-      <a href="game.html">
-        <img src="assets/game.png" alt="game" style="width:100%; height:auto;">
+    <div class="photo" style="grid-column: 3 / 3; grid-row: 2 / 2;">
+      <a href="game.html"><img src="assets/controller.png" alt="controller" style="width:100%; height:auto;">
     </div>
   </div>
 </body>

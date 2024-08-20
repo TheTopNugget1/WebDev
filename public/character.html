@@ -13,59 +13,199 @@
   <h1>Create Your Character</h1>
 
   <div class="image-container">
-    <img id="Base" class="alpaca-part" src="assets/baseSheet.png">
-    <img id="Colour" class="alpaca-part" src="assets/Red.png">
-    <img id="Hat" class="alpaca-part" src="assets/Red.png">
-    <img id="Eye" class="alpaca-part" src="assets/Red.png">
+    <img id="Base" class="alpaca-part" src="assets/WhiteSheet.png">
+    <img id="Colour" class="alpaca-part" src="assets/Void.png">
+    <img id="Hat" class="alpaca-part" src="assets/Void.png">
+    <img id="Pant" class="alpaca-part" src="assets/Void.png">
+  </div>
 
+  <div class="image-container single">
+    <img id="BaseSingle" class="alpaca-part" src="assets/items/White.png">
+    <img id="ColourSingle" class="alpaca-part" src="assets/items/Void.png">
+    <img id="HatSingle" class="alpaca-part" src="assets/items/void.png">
+    <img id="PantSingle" class="alpaca-part" src="assets/Void.png">
   </div>
 
   <div class="character-options">
     <button id="ColourOption">Colours</button>
     <button id="HatOption">Hats</button>
-    <button id="EyeOption">Eyes</button>
+    <button id="PantOption">Pants</button>
   </div>
   
   <div class="sub-options">
 
     <div id="colourButtonGroup" class="options" style="display:none;">
-      <button onclick="ChangeColour('Red')">Red</button>
-      <button onclick="ChangeColour('Yellow')">Yellow</button>
-      <button onclick="ChangeColour('Blue')">Blue</button>
-      <button onclick="ChangeColour('Green')">Green</button>
-      <button onclick="ChangeColour('Purple')">Purple</button>
-      <button onclick="ChangeColour('base')">base</button>
+
+      <button onclick="ChangeColour('Red')">Red
+
+        <img src="assets/items/Red.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeColour('Yellow')">Yellow
+
+        <img src="assets/items/Yellow.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeColour('Blue')">Blue
+
+        <img src="assets/items/Blue.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeColour('Green')">Green
+
+        <img src="assets/items/Green.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeColour('Purple')">Purple
+
+        <img src="assets/items/Purple.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeColour('White')">White
+
+        <img src="assets/items/White.png" 
+        style="position: absolute;">
+
+      </button>
+
     </div>
 
     <div id="hatButtonGroup" class="options" style="display:none;">
-      <button onclick="ChangeHat('TopHat')">TopHat</button>
-      <button onclick="ChangeHat('FezHat')">FezHat</button>
-      <button onclick="ChangeHat('PartyHat')">PartyHat</button>
+
+      <button onclick="ChangeHat('TopHat')">Top Hat
+        
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/TopHat.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeHat('FezHat')">Fez
+        
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/FezHat.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeHat('PartyHat')">Party Hat
+
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/PartyHat.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeHat('WitchHat')">Witch Hat
+
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/WitchHat.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeHat('PartyHat')">Cat Ears
+        
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/PartyHat.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeHat('BowHat')">Bow
+        
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/BowHat.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangeHat('Void')">None
+        
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+      </button>
+      
     </div>
 
-    <div id="eyeButtonGroup" class="options" style="display:none;">
-      <button onclick="ChangeEye('Dust01')">Eye1</button>
-      <button onclick="ChangeEye('Dust')">Eye2</button>
-      <button onclick="ChangeEye('Void')">Eye3</button>
+    <div id="PantButtonGroup" class="options" style="display:none;">
+
+      <button onclick="ChangePant('HighVisPant')">High Vis
+
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/HighVisPant.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangePant('Void')">Tutu
+
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/Void.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangePant('Void')">Add idea Here
+
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/Void.png" 
+        style="position: absolute;">
+
+      </button>
+
+      <button onclick="ChangePant('Void')">None
+
+        <img src="assets/Char.png" 
+        style="position: absolute;">
+
+        <img src="assets/items/Void.png" 
+        style="position: absolute;">
+
+      </button>
     </div>
 
   </div>
 
   <div>
-    <button class="buttonCharacter" onclick="runRandomScript()">Randomize</button>
+    <button class="buttonCharacter" onclick="randomizeCharacter()">Randomize</button>
     <button class="buttonCharacter" onclick="saveCharacter()">Save Character</button>
+    <button class="buttonCharacter" onclick="Reset()">Reset</button>
   </div>
 
   <a href="game.html" class="button">Play Game</a>
   <a href="index.html" class="button">Back to Main Page</a>
 
   <script>
-    function runRandomScript() {
-      fetch('/find-random-image')
-        .then(response => response.text())
-        .then(data => alert(data))
-        .catch(error => console.error('Error:', error));
-    }
   </script>
 
 </body>
