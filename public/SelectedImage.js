@@ -1,3 +1,3 @@
 
 export const ChosenImage = "char3.png";
-export const ChosenBlock = ["bcl3.png", "bcld3.png", "bcr3.png", "bcrd3.png", "flat3.png", "flipped3.png", "float3.png", "gank3.png", "ice3.png", "move3.png"];
+export const ChosenBlock = ["bcl2.png", "bcld2.png", "bcr2.png", "bcrd2.png", "Door2.png", "flat2.png", "flipped2.png", "float2.png", "gank2.png", "ice2.png", "move2.png", "Quck2.png"];

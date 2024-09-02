@@ -1,3 +1,5 @@
+let hello = "hello";
+
 // -------------------------------
 // pgt generated 2%
 // Hugh generated 98%
@@ -9,6 +11,8 @@
 import { ChosenImage, ChosenBlock } from "./SelectedImage.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  // THis DOEsnt DO anyhing ------------------>
 
   // Ensure that the elements are ready before setting the src attribute
   const flatImage = document.getElementById('chosen-block-flat');
@@ -22,21 +26,111 @@ document.addEventListener('DOMContentLoaded', () => {
   const GankImage = document.getElementById('chosen-block-gank');
   const IceImage = document.getElementById('chosen-block-ice');
 
-  let debugMode = true; // Global variable to track debug state
+  //const window = document.getElementsByClassName("game");
+  const bar = document.getElementById("nutbutter");
+
+  let debugMode = false; // Global variable to track debug state
+
+  //let gameWidth = window.innerWidth - 15;
+  //let gameHeight = 730;
+
+  let scaleFact = 1;
+  let gameWidth = 1400 * scaleFact;
+  let gameHeight = 700 * scaleFact;
+
+  const gridWidth = 40;  // Number of columns
+  const gridHeight = 20; // Number of rows  
+
+  let gridBlockWidth;
+  let gridBlockHeight;
+
+
+  function resetSX(){
+    let gameWidth = 1400 * scaleFact;
+    return gameWidth;
+  }
+
+  function resetSY (){
+    let gameHeight = 700 * scaleFact;
+    return gameHeight;
+  }
+
+  while (true) {
+
+    while (gameWidth <= window.innerWidth - 15 || gameHeight <= window.innerHeight - 100){
+      scaleFact += 0.000001;
+      gameWidth = resetSX();
+      gameHeight = resetSY();
+    }
+
+    while (gameWidth >= window.innerWidth - 15 || gameHeight >= window.innerHeight - 100){
+      scaleFact -= 0.000001;
+      gameWidth = resetSX();
+      gameHeight = resetSY();
+    }
+
+    if (true){
+      //alert(hello);
+    }
+
+    break;
+  }
+
+  function calculateGridBlockSize() {
+    gridBlockWidth = gameWidth / gridWidth;
+    gridBlockHeight = gameHeight / gridHeight;
+
+  }
+
+  function getPixCord(gridX, gridY) {
+    const x = (gridX - 1) * gridBlockWidth;
+    const y = (gridY - 1) * gridBlockHeight;
+    return {x, y} ;
+  }
+
+  function velocity(velocity){
+
+    let gridVel = velocity * gameHeight / 700;
+
+    return gridVel;
+
+  }
+
+  function scalePlatform() {
+    const scaleX = (gridBlockWidth / 132) + 0.01;
+    const scaleY = gridBlockHeight / 132;
+    return [scaleX, scaleY];
+  }
+
+  function playerDie(){
+    player.setPosition(getPixCord(2, 18).x, getPixCord(2, 18).y );
+    player.setVelocity(0);
+    KeyFollow = false;
+
+    if(cursors.space.isDown != true){
+      death++;
+    }
+
+    move.setPosition(getPixCord(10, 2).x, getPixCord(10, 2).y );
+    move.setVelocity(0);
+  }
 
   var config = {
     type: Phaser.AUTO,
     //i made the game full screen if you open it in a new tab
-    width: 1519,
-    height: 850,
+    width: gameWidth,
+    height: gameHeight,
+
     disableContextMenu: true,
+
     physics: {
       default: "arcade",
       arcade: {
-        gravity: { y: 800 },
+        gravity: { y: velocity(800) },
         debug: debugMode , // To show debut stuff
       },
     },
+
     scene: {  
       preload: preload,
       create: create,
@@ -46,122 +140,351 @@ document.addEventListener('DOMContentLoaded', () => {
 
   var game = new Phaser.Game(config);
   let DebugText_XandY;
+  let DebugText_XandY_Grid;
   let DebugText_DeathCount;
   let DebugText_Timer;
   let DebugText_XandYPlayer;
+  let DebugText_CurrentLevel;
+  let Construct;
+
   let startTime;
-  let bounce;
-  let bounce2;
-  let bounce3;
-  let bounceGank;
-  let vertgank;
   let move;
   let platforms;
   let cursors;
   let player;
   let death = 0;
-  let PlatformData = [];
+  let PlatformData1 = [];
   let PlatformData2 = [];
+  let PlatformData3 = [];
+  let PlatformData4 = [];
+  let flatDim = [132, 40];
+  let flippedDim = [132, 40];
+  let floatDim = [132, 132];
+  let gankDim = [132, 132];
+  let iceDim = [132, 132];
+
+  let event1 = false;
+  let KeyFollow = false;
+
   let CurrentLevel = 1;
 
-  PlatformData = [
-    { x: (32 *1), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *3), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *5), y: 830, tag: "flat", scale: 0.5 },
-    { x: (32 *7), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *9), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *11), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *13), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *15), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *17), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *19), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *21), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *23), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *25), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *27), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *29), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *31), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *33), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *35), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *37), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *39), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *41), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *43), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *45), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *47), y: 830, tag: "flat", scale: 0.5 }, 
-    { x: (32 *17), y: 800, tag: "bounce", scale: 0.25, bounce: -400},
-    { x: (32 *18), y: 800, tag: "bouncegank", scale: 0.25, bounce: -400, MoRes1: (32 * 18), MoRes2: (32 *20) },
-    { x: (32 *19), y: 700, tag: "gank", scale: 0.2, MoRes1: 608, MoRes2: 672 },
-    { x: (32 *30), y: 700, tag: "gank", scale: 0.2, MoRes1: (32 * 32), MoRes2: (32 *30) },
-    { x: (32 *30), y: 700, tag: "vertgank", scale: 0.2, MoRes1: 700, MoRes2: 800 },
-    { x: 700, y: 800, tag: "door", scale: 0.2 }, 
+  let score = 0;
+
+  let shiftdown = false;
+
+  calculateGridBlockSize();
+
+  console.log(gameWidth, gameHeight, gridBlockWidth, gridBlockHeight);
+
+  PlatformData1 = [
+
+    { x: 2, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 3, y: 20, tag: "flat", scale: [1, 1] }, 
+
+    { x: 4, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 5, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 6, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 7, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 5.5, y: 19.8, tag: "spikes", scale: [1, 1] },
+
+    { x: 4, y: 19, tag: "coin", scale: [1, 1] },
+    
+    { x: 8, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 9, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 10, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 11, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 12, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 12, y: 18.5, tag: "float", scale: [1, 1] },
+    { x: 12, y: 19.5, tag: "float", scale: [1, 1] },
+    
+    { x: 8, y: 18, tag: "key", scale: [1.5, 1.5] },
+
+    { x: 13, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 14, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 15, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 16, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 21, y: 20, tag: "gank", scale: [1, 1], MoRes1: 25},
+    { x: 20, y: 20, tag: "float", scale: [1, 1] },
+
+    { x: 27, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 28, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 29, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 30, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 31, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 32, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 34, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 35.5, y: 18.5, tag: "spikes", scale: [1, 1] },
+
+    { x: 37, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 40, y: 20, tag: "vertgank", scale: [1, 1], MoRes1: 15 },
+
+    
+    { x: 40, y: 20, tag: "float", scale: [1, 1] },
+
+    { x: 37, y: 15, tag: "float", scale: [1, 1] },
+
+    { x: 36, y: 14, tag: "bounce", scale: [1, 1], bounce: -700},
+
+    { x: 38, y: 2, tag: "flipped", scale: [1, 1] },
+    { x: 37, y: 2, tag: "flipped", scale: [1, 1] },
+    { x: 36, y: 2, tag: "flipped", scale: [1, 1] },
+    { x: 35, y: 2, tag: "flipped", scale: [1, 1] },
+
+    { x: 35, y: 6, tag: "flipped", scale: [1, 1] },
+    { x: 36, y: 6, tag: "flipped", scale: [1, 1] },
+
+    { x: 40, y: 5, tag: "coin", scale: [1, 1] },
+
+    { x: 31.5, y: 2.5, tag: "float", scale: [1, 1] },
+
+    { x: 30, y: 2, tag: "gank", scale: [1, 1], MoRes1: 27 },
+
+    { x: 23, y: 3, tag: "flipped", scale: [1, 1] },
+
+    { x: 22, y: 3, tag: "flipped", scale: [1, 1] },
+    { x: 20, y: 4, tag: "flipped", scale: [1, 1] },
+    { x: 18, y: 5, tag: "flipped", scale: [1, 1] },
+    { x: 20, y: 7, tag: "flipped", scale: [1, 1] },
+    { x: 22, y: 9, tag: "flipped", scale: [1, 1] },
+
+    { x: 20, y: 7, tag: "flipped", scale: [1, 1] },
+
+    { x: 22, y: 15, tag: "bounce", scale: [1, 1], bounce: -500},
+
+    { x: 25, y: 9, tag: "flipped", scale: [1, 1] },
+
+    { x: 26, y: 13, tag: "flat", scale: [1, 1] },
+    { x: 27, y: 13, tag: "flat", scale: [1, 1] },
+  
+   
+    
+    { x: 27, y: 12.2, tag: "door", scale: [0.5, 0.5] }, 
+
+    { x: 16, y: 16, tag: "coin", scale: [1, 1] },
+    { x: 18, y: 2, tag: "coin", scale: [1, 1] },
+    
+
   ];
 
   PlatformData2 = [
-    
-    { x: 400, y: 800, tag: "door", scale: 0.2 }, 
-    { x: 100, y: 700, tag: "bounce", scale: 0.2 }, 
-
-    { x: 32, y: 830, tag: "flat", scale: 0.5 }, 
-    { x: 96, y: 830, tag: "flat", scale: 0.5 },
-    { x: 160, y: 830, tag: "flat", scale: 0.5 },
-    { x: 280, y: 830, tag: "float", scale: 0.3 },
-    { x: 380, y: 830, tag: "float", scale: 0.3 },
-    { x: 500, y: 830, tag: "flat", scale: 0.5 },
-    { x: 620, y: 830, tag: "float", scale: 0.3 },
-    { x: 720, y: 830, tag: "float", scale: 0.3 },
-    { x: 840, y: 830, tag: "flat", scale: 0.5 },
-    { x: 1200, y: 830, tag: "flat", scale: 0.5 },
-    { x: 1430, y: 830, tag: "float", scale: 0.3 },
-    { x: 1430, y: 660, tag: "float", scale: 0.3 },
-    { x: 900, y: 700, tag: "float", scale: 0.3 },
-    { x: 20, y: 580, tag: "float", scale: 0.3 },
-    { x: 60, y: 425, tag: "float", scale: 0.3 },
-    { x: 108, y: 425, tag: "flipped", scale: 0.5 },
-    { x: 172, y: 425, tag: "flipped", scale: 0.5 },
-    { x: 234, y: 425, tag: "flipped", scale: 0.5 },
-    { x: 300, y: 425, tag: "flipped", scale: 0.5 },
-    { x: 350, y: 425, tag: "float", scale: 0.3 },
-    { x: 285, y: 580, tag: "float", scale: 0.3 },
-    { x: 333, y: 580, tag: "flat", scale: 0.5 },
-    { x: 397, y: 580, tag: "flat", scale: 0.5 },
-    { x: 460, y: 580, tag: "flat", scale: 0.5 },
-    { x: 510, y: 440, tag: "float", scale: 0.3 },
-    { x: 700, y: 550, tag: "float", scale: 0.3 },
-    { x: 900, y: 450, tag: "float", scale: 0.3 },
-    { x: 1100, y: 350, tag: "float", scale: 0.3 },
-    { x: 1300, y: 250, tag: "float", scale: 0.3 },
-    { x: 1450, y: 150, tag: "float", scale: 0.3 },    
+    { x: 2, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 3, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 4, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 3, y: 12, tag: "flat", scale: [1, 1] },
+    { x: 4, y: 19, tag: "flat", scale: [1, 1] },
+    { x: 5, y: 10, tag: "gank", scale: [1, 1], MoRes1: 7 },
+    { x: 6, y: 26, tag: "bounce", scale: [1, 1], bounce: -400 },
+    { x: 7, y: 19, tag: "key", scale: [1, 1] },
+    { x: 8, y: 17, tag: "flat", scale: [1, 1] },
+    { x: 9, y: 20, tag: "bouncegank", scale: [1, 1], bounce: -400, MoRes1: 5 },
+    { x: 10, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 11, y: 20, tag: "coin", scale: [1, 1] },
+    { x: 12, y: 19, tag: "float", scale: [1, 1] },
+    { x: 13, y: 15, tag: "vertgank", scale: [1, 1], MoRes1: 19 },
+    { x: 14, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 15, y: 19, tag: "flat", scale: [1, 1] },
+    { x: 16, y: 16, tag: "flat", scale: [1, 1] },
+    { x: 17, y: 19, tag: "spikes", scale: [1, 1] },
+    { x: 18, y: 20, tag: "float", scale: [1, 1] },
+    { x: 19, y: 19, tag: "flat", scale: [1, 1] },
+    { x: 20, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 21, y: 19, tag: "gank", scale: [1, 1], MoRes1: 22 },
+    { x: 22, y: 10, tag: "flat", scale: [1, 1] },
+    { x: 23, y: 20, tag: "key", scale: [1, 1] },
+    { x: 24, y: 19, tag: "float", scale: [1, 1] },
+    { x: 25, y: 17, tag: "coin", scale: [1, 1] },
+    { x: 26, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 27, y: 19, tag: "spikes", scale: [1, 1] },
+    { x: 28, y: 18, tag: "gank", scale: [1, 1], MoRes1: 30 },
+    { x: 29, y: 20, tag: "float", scale: [1, 1] },
+    { x: 30, y: 19, tag: "vertgank", scale: [1, 1], MoRes1: 20},
+    { x: 31, y: 21, tag: "flat", scale: [1, 1] },
+    { x: 32, y: 20, tag: "bounce", scale: [1, 1], bounce: -400 },
+    { x: 33, y: 19, tag: "flat", scale: [1, 1] },
+    { x: 34, y: 17, tag: "bouncegank", scale: [1, 1], bounce: -400, MoRes1: 20 },
+    { x: 35, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 36, y: 16, tag: "door", scale: [0.5, 0.5] },
+    { x: 37, y: 10, tag: "float", scale: [1, 1] },
+    { x: 38, y: 14, tag: "flat", scale: [1, 1] },
+    { x: 39, y: 19, tag: "spikes", scale: [1, 1] },
+    { x: 40, y: 20, tag: "coin", scale: [1, 1] },
   ];
 
-  function movePlatformX(platform, MoRes1, MoRes2, scene) {
+  PlatformData5 = [
+    { x: 2, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 3, y: 20, tag: "flat", scale: [1, 1] }, 
 
-    console.log(platform);
+    { x: 3, y: 19, tag: "coin", scale: [1, 1] }, 
 
+    { x: 4, y: 19, tag: "flat", scale: [1, 1] }, 
+    { x: 5, y: 21, tag: "flat", scale: [1, 1] }, 
+    { x: 8, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 8, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 9, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 10, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 17, y: 14, tag: "key", scale: [1, 1] },
+
+    { x: 17, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 17, y: 19, tag: "flat", scale: [1, 1] }, 
+    { x: 17, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 17, y: 20, tag: "flat", scale: [1, 1] },  
+    { x: 15.5, y: 20, tag: "flat", scale: [1, 1] }, 
+
+    { x: 5, y: 5, tag: "flat", scale: [1, 1] }, 
+    { x: 8, y: 5, tag: "bounce", scale: [1, 1], bounce: -400},
+    { x: 11, y: 5, tag: "bouncegank", scale: [1, 1], bounce: -400, MoRes1: 11, MoRes2: 12 },
+    { x: 14, y: 5, tag: "gank", scale: [1, 1], MoRes1: 14, MoRes2: 15 },
+    { x: 17, y: 5, tag: "vertgank", scale: [1, 1], MoRes1: 5, MoRes2: 6 },
+    { x: 20, y: 5, tag: "door", scale: [0.5, 0.5] }, 
+    
+
+    { x: 20, y: 18, tag: "flat", scale: [1, 1] }, 
+
+    { x: 17, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+    { x: 20, y: 20, tag: "bouncegank", scale: [1, 1], bounce: -400, MoRes1: 20, MoRes2: 25 },
+    { x: 17, y: 20, tag: "gank", scale: [1, 1], MoRes1: 17, MoRes2: 20 },
+    { x: 17, y: 20, tag: "gank", scale: [1, 1], MoRes1: 17, MoRes2: 20 },
+    { x: 17, y: 20, tag: "vertgank", scale: [1, 1], MoRes1: 20, MoRes2: 16 },
+    { x: 20, y: 20, tag: "door", scale: [0.5, 0.5] }, 
+  ];
+
+  PlatformData3 = [
+
+    { x: 2, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 3, y: 20, tag: "flat", scale: [1, 1] }, 
+
+    { x: 4, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 5, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 6, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 7, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 8, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 9, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 10, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 11, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 12, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 12, y: 18.5, tag: "float", scale: [1, 1] },
+    
+    { x: 8, y: 18, tag: "key", scale: [1.5, 1.5] },
+
+    { x: 13, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 14, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 15, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 16, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 20, y: 20, tag: "gank", scale: [1, 1], MoRes1: 20, MoRes2: 25 },
+    { x: 20, y: 20, tag: "float", scale: [1, 1] },
+
+    { x: 27, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 28, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 29, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 30, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 31, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 32, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 34, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 37, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 40, y: 20, tag: "vertgank", scale: [1, 1], MoRes1: 20, MoRes2: 15 },
+
+    { x: 40, y: 15, tag: "flat", scale: [1, 1] },
+
+    { x: 37, y: 15, tag: "float", scale: [1, 1] },
+
+  
+   
+    
+    { x: 31, y: 19.2, tag: "door", scale: [0.5, 0.5] }, 
+
+  ];
+
+  PlatformData4 = [
+
+    { x: 2, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 3, y: 20, tag: "flat", scale: [1, 1] }, 
+
+    { x: 4, y: 20, tag: "flat", scale: [1, 1] }, 
+    { x: 5, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 6, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 7, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 8, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 9, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 10, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 11, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 12, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 12, y: 18.5, tag: "float", scale: [1, 1] },
+    
+    { x: 8, y: 18, tag: "key", scale: [1, 1] },
+
+    { x: 13, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 14, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 15, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 16, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 20, y: 20, tag: "gank", scale: [1, 1], MoRes1: 20, MoRes2: 25 },
+    { x: 20, y: 20, tag: "float", scale: [1, 1] },
+
+    { x: 27, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 28, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 29, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 30, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 31, y: 20, tag: "flat", scale: [1, 1] },
+    { x: 32, y: 20, tag: "flat", scale: [1, 1] },
+
+    { x: 34, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 37, y: 20, tag: "bounce", scale: [1, 1], bounce: -400},
+
+    { x: 40, y: 20, tag: "vertgank", scale: [1, 1], MoRes1: 20, MoRes2: 15 },
+
+    { x: 40, y: 15, tag: "flat", scale: [1, 1] },
+
+    { x: 37, y: 15, tag: "float", scale: [1, 1] },
+
+  
+   
+    
+    { x: 31, y: 19.2, tag: "door", scale: [0.5, 0.5] }, 
+  ];
+
+  function movePlatformX(platform, MoRes1, scene) {
+
+    MoRes1 = getPixCord(MoRes1, 1).x;
+    
     const duration = 1000; // Duration for the movement
     scene.tweens.timeline({ 
         targets: platform,
-        ease: 'Linear',
+        ease: 'Sine.easeInOut',
         loop: -1, // Loop indefinitely
         tweens: [
             { x: MoRes1, duration: duration, yoyo: true },
-            { x: MoRes2, duration: duration, yoyo: true }
         ]
     });
   }
 
-  function movePlatformY(platform, MoRes1, MoRes2, scene) {
+  function movePlatformY(platform, MoRes1, scene) {
 
-    console.log(platform);
+    MoRes1 = getPixCord(1, MoRes1).y;
 
-    const duration = 1000; // Duration for the movement
+    const duration = 3000; // Duration for the movement
     scene.tweens.timeline({ 
         targets: platform,
-        ease: 'Linear',
+        ease: 'Sine.easeInOut',
         loop: -1, // Loop indefinitely
         tweens: [
             { y: MoRes1, duration: duration, yoyo: true },
-            { y: MoRes2, duration: duration, yoyo: true }
         ]
     });
   }
@@ -170,9 +493,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let platforms = scene.physics.add.staticGroup();
     array.forEach((data) => {
       try {
+        const { x, y } = getPixCord(data.x, data.y);
+
         let platform = platforms
-          .create(data.x, data.y, data.tag)
-          .setScale(data.scale)
+          .create(x, y, data.tag)
+          .setScale(scalePlatform()[0] * data.scale[0], scalePlatform()[1] * data.scale[1])
           .refreshBody()
           .setImmovable(true)
           .setAngle(data.rotation)
@@ -184,6 +509,9 @@ document.addEventListener('DOMContentLoaded', () => {
         platform.setData('MoRes1', data.MoRes1);
         platform.setData('MoRes2', data.MoRes2);
         platform.setData('axis', data.axis);
+        platform.setData('x', data.x);
+        platform.setData('y', data.y);
+        platform.body.reset();
       }
       catch(err) {
         console.error("Error creating platforms: ", err);
@@ -191,6 +519,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    move = scene.physics.add.image(getPixCord(10, 2).x, getPixCord(10, 2).y, "move");
+    move.setImmovable(false);
+    move.body.allowGravity = true;
+    move.setScale(scalePlatform()[0]*0.75, scalePlatform()[1]*0.75)
+    move.setGravityY(1000);
+  
     return platforms;
   }
 
@@ -198,20 +532,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     platforms.children.entries.forEach((platform) => {
 
-      if (platform.getData('type') === 'flat') {
-        // Apply rule for flat platforms
-        platform.setTint(0xff0000);  // For example, tint all flat platforms red
-      }
-
       if (platform.getData('type') === 'gank' || platform.getData('type') === 'bouncegank') {
-        movePlatformX(platform, platform.getData('MoRes1'), platform.getData('MoRes2'), scene); 
+        movePlatformX(platform, platform.getData('MoRes1'), scene); 
       }
 
       if (platform.getData('type') === 'vertgank') {
-        movePlatformY(platform, platform.getData('MoRes1'), platform.getData('MoRes2'), scene); 
+        movePlatformY(platform, platform.getData('MoRes1'), scene); 
       }
 
+      //door fade in out
+      // dore doesnt colide
       if (platform.getData('type') === 'door') {
+
+        platform.body.checkCollision.none = true;
 
         scene.tweens.add({
           targets: platform,
@@ -223,83 +556,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
       }
 
+      //coin bounces
+      // coin doesnt colide
+      if (platform.getData('type') === 'coin') {
+
+        platform.body.checkCollision.none = true;
+
+        scene.tweens.add({
+          targets: platform,
+          y: platform.y + 10,
+          yoyo: true,
+          repeat: -1,
+          ease: 'Sine.easeInOut'
+        }); 
+
+      }
+
+      // key doesnt collide
+      if (platform.getData('type') === 'key') {
+
+        platform.body.checkCollision.none = true;
+      }
+
     });
+
+    scene.physics.add.collider(player, platforms);;
+    scene.physics.add.collider(player, move);
+    scene.physics.add.collider(move, platforms);
+
   }
 
   function GenerateDebug(scene) {
+
     // Graphics object for drawing outlines
     const graphics = scene.add.graphics();
     graphics.lineStyle(2, 0xff0000, 1); // Red color for the outline
 
     // Define the upside-down gravity area
-    const upsideDownArea = new Phaser.Geom.Rectangle(0, 530, config.width, 10);
+    const upsideDownArea = new Phaser.Geom.Rectangle(0, getPixCord(2, 10).y, config.width, 10);
 
     // Draw the outline for the upside-down gravity area
     graphics.strokeRectShape(upsideDownArea);
 
-    // Get the scene's width and height
-    const sceneWidth = config.width;
-    const sceneHeight = config.height;
-
-    // Draw a grid of 32 by 32 squares
-    const gridSize = 64;
-    for (let x = 0; x < sceneWidth; x += gridSize) {
-        for (let y = 0; y < sceneHeight; y += gridSize) {
-            graphics.strokeRect(x, y, gridSize, gridSize);
+    // Draw the grid
+    for (let x = 0; x <= gameWidth; x += gridBlockWidth) {
+        for (let y = 0; y <= gameHeight; y += gridBlockHeight) {
+            graphics.strokeRect(x, y, gridBlockWidth, gridBlockHeight);
         }
     }
-}
 
-  function GenerateOtherPlatforms(scene){
-
-    
-
-    //bouncey moving
-    bounceGank = scene.physics.add.image(490, 700, "bounce").setScale(0.3);
-    bounceGank.setImmovable(true);
-    bounceGank.body.allowGravity = false;
-    bounceGank.setVelocityX(50);
-
-    /*
-    //gank1
-    gank = scene.physics.add.image(900, 830, "gank").setScale(0.3);
-    gank.setImmovable(true);
-    gank.body.allowGravity = false;
-    gank.setVelocityX(50);
-
-    //gank2
-    gank2 = scene.physics.add.image(1260, 830, "gank").setScale(0.3);
-    gank2.setImmovable(true);
-    gank2.body.allowGravity = false;
-    gank2.setVelocityX(80);
-
-    //gank3
-    gank3 = scene.physics.add.image(1350, 700, "gank").setScale(0.3);
-    gank3.setImmovable(true);
-    gank3.body.allowGravity = false;
-    gank3.setVelocityX(80);
-
-    //gank4
-    gank4 = scene.physics.add.image(860, 700, "gank").setScale(0.3);
-    gank4.setImmovable(true);
-    gank4.body.allowGravity = false;
-    gank4.setVelocityX(80);
-
-    
-
-    //vertgank
-    vertgank = scene.physics.add.image(1500, 830, "gank").setScale(0.3);
-    vertgank.setImmovable(true);
-    vertgank.body.allowGravity = false;
-    vertgank.setVelocityY(-50);
-
-    */
-
-    move = scene.physics.add.image(120, 470, "move");
-    move.setImmovable(false);
-    move.body.allowGravity = true;
-    move.setScale(0.25);
-    move.setGravityY(-1000);
+    DebugText_XandYPlayer = scene.add.text(10, 10, "", { fill: "#00ff00" });
+    DebugText_XandY = scene.add.text(10, 50, "", { fill: "#00ff00" });
+    DebugText_XandY_Grid = scene.add.text(10, 90, "", { fill: "#00ff00" });
 
   }
 
@@ -338,28 +646,32 @@ document.addEventListener('DOMContentLoaded', () => {
   function loadNextLevel(scene) {
 
     console.log("Loading next level...");
-    player.setPosition(50, 770);
-    CurrentLevel++;
-    
-    if (CurrentLevel > 2) {  // Assuming you have only 2 levels
-        CurrentLevel = 1;  // Reset to first level if all levels are completed
-    }
-    
-     // Clear existing platforms
-     platforms.clear(true, true);
+
+    player.setPosition(getPixCord(2, 18).x, getPixCord(2, 18).y).setScale(scalePlatform()[0]*4, scalePlatform()[1]*4);
+
+    // Clear existing platforms
+    platforms.clear(true, true);
+    move.destroy();
     
     // Generate new platforms based on the current level
     if (CurrentLevel === 1) {
+      Construct = scene.add.text(getPixCord(15, 1).x, getPixCord(1, 10).y, "Apologies, this level is under construction \n I hope you enjoyed the demo", { font: "40px Arial", fill: "#34AD07" }).setAlpha(0.7);
       platforms = GeneratePlatforms(scene, PlatformData2);
-    } else if (CurrentLevel === 2) {
-      platforms = GeneratePlatforms(scene, PlatformData);
+    } 
+    else if (CurrentLevel === 2) {
+      platforms = GeneratePlatforms(scene, PlatformData3);
     }
-    
-    applyPlatformRules(scene);
-    
-    // Re-add collision between player and new platforms
-    scene.physics.add.collider(player, platforms);
-    
+    else if (CurrentLevel === 3) {
+      platforms = GeneratePlatforms(scene, PlatformData4);
+    }
+      
+    CurrentLevel++;
+
+    console.log(CurrentLevel);
+
+    applyPlatformRules(scene);  
+
+    KeyFollow = false;
     
   }
 
@@ -370,18 +682,24 @@ document.addEventListener('DOMContentLoaded', () => {
     this.load.image("bcld", `assets/blocks/${ChosenBlock[1]}`);
     this.load.image("bcr", `assets/blocks/${ChosenBlock[2]}`);
     this.load.image("bcrd", `assets/blocks/${ChosenBlock[3]}`);
-    this.load.image("bounce", `assets/blocks/${ChosenBlock[8]}`);
-    this.load.image("flat", `assets/blocks/${ChosenBlock[4]}`);
-    this.load.image("flipped", `assets/blocks/${ChosenBlock[5]}`);
-    this.load.image("float", `assets/blocks/${ChosenBlock[6]}`);
-    this.load.image("gank", `assets/blocks/${ChosenBlock[7]}`);
-    this.load.image("bouncegank", `assets/blocks/${ChosenBlock[8]}`);
-    this.load.image("vertgank", `assets/blocks/${ChosenBlock[7]}`);
-    this.load.image("move", `assets/blocks/${ChosenBlock[9]}`);
+    this.load.image("bounce", `assets/blocks/${ChosenBlock[9]}`);
+    this.load.image("flat", `assets/blocks/${ChosenBlock[5]}`);
+    this.load.image("flipped", `assets/blocks/${ChosenBlock[6]}`);
+    this.load.image("float", `assets/blocks/${ChosenBlock[7]}`);
+    this.load.image("gank", `assets/blocks/${ChosenBlock[8]}`);
+    this.load.image("bouncegank", `assets/blocks/${ChosenBlock[9]}`);
+    this.load.image("vertgank", `assets/blocks/${ChosenBlock[8]}`);
+    this.load.image("move", `assets/blocks/${ChosenBlock[10]}`);
 
     this.load.image("dust", "assets/dust01.png");
 
-    this.load.image('door', "assets/blocks/Door.png");  
+    this.load.image('door', `assets/blocks/${ChosenBlock[4]}`);   
+
+    this.load.image('background', `assets/blocks/${ChosenBlock[11]}`)
+
+    this.load.image('key', "assets/items/key.png");
+    this.load.image('coin', "assets/items/coin.png");
+    this.load.image('spikes', "assets/blocks/spikes.png");
     
 
     this.load.spritesheet('charTest', `assets/${ChosenImage}`, {
@@ -397,11 +715,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function create() {
 
+    let backs = this.physics.add.staticGroup();
+
+    let back = backs.create(getPixCord(21, 10).x, getPixCord(10, 10).y, 'background');
+    back.setScale(scalePlatform()[0] *5.6, scalePlatform()[1] *5);
+    back.setGravityY(0);
+    back.setImmovable(true);
+    back.setAlpha(0.5);
+
     if (config.physics.arcade.debug == true) {
       GenerateDebug(this);
     }
 
-    player = this.physics.add.sprite(45, 770, 'char').setScale(1).setBounce(0.0).setCollideWorldBounds(false);
+    player = this.physics.add.sprite(getPixCord(2, 18).x, getPixCord(2, 18).y, 'char')
+    .setScale(scalePlatform()[0] *4, scalePlatform()[1] *4)
+    .setBounce(0.0)
+    .setCollideWorldBounds(false);
 
     GeneratePlayerAnimations(this, 'char');
 
@@ -417,217 +746,211 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // debug texts
-    DebugText_DeathCount = this.add.text(10, 10, "", { font: "40px Arial", fill: "#34AD07" }).setAlpha(0.7);
-    DebugText_XandY = this.add.text(10, 70, "", { fill: "#00ff00" });
-    DebugText_Timer = this.add.text(10, 40, "Time: 0", { font: "40px Arial", fill: "#ff0000" }).setAlpha(0.7);
-    DebugText_XandYPlayer = this.add.text(10, 10, "", { fill: "#00ff00" });
+    DebugText_DeathCount = this.add.text(10, 10, "Deaths = 0", { font: "40px Arial", fill: "#34AD07" }).setAlpha(0.7);
+    DebugText_Timer = this.add.text(10, 55, "Time: 0", { font: "40px Arial", fill: "#ff0000" }).setAlpha(0.7);
+    DebugText_CurrentLevel = this.add.text(10, 100, "Current Level = 0", { font: "40px Arial", fill: "#ff0000"}).setAlpha(0.7);
 
-    startTime = this.time.now;
-
-    GenerateOtherPlatforms(this);
-
-    
+    startTime = this.time.now;    
 
     // Generate platforms using PlatformData
 
-    platforms = GeneratePlatforms(this, PlatformData);
+    if (CurrentLevel === 1){
+      platforms = GeneratePlatforms(this, PlatformData1);
+    }
+
+    if (CurrentLevel === 2){
+      platforms = GeneratePlatforms(this, PlatformData2);
+    }
+
+    if (CurrentLevel === 3){
+      platforms = GeneratePlatforms(this, PlatformData3);
+    }
+
+    if (CurrentLevel === 4){
+      platforms = GeneratePlatforms(this, PlatformData4);
+    }
+
     applyPlatformRules(this);
 
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(player, bounce);
-    this.physics.add.collider(player, bounce2);
-    this.physics.add.collider(player, bounce3);
-    this.physics.add.collider(player, bounceGank);
-    this.physics.add.collider(player, vertgank);
-    this.physics.add.collider(player, move);
-    this.physics.add.collider(move, platforms);
+  
     //this.physics.add.collider(player, Door, handlePlatformCollisions, null, this);
 
     //this creates the key inputs for the movment and the reset
     cursors = this.input.keyboard.createCursorKeys();
+
+    console.log(platforms);
+
   }
 
   function update() {
 
-    platforms.children.entries.forEach((platform) => {
+    // special things ___________________________________________________
+
+    let kids = platforms.children.entries
+
+
+    kids.forEach((platform) => {
 
       if (platform.getData('type') === 'flat' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
-        console.log('Flat platform');
+        //console.log('Flat platform');
       }
 
       if (platform.getData('type') === 'door' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
-        loadNextLevel(this);
-        console.log('Door platform');
+        if (KeyFollow){
+          loadNextLevel(this);
+        }
+        //console.log('Door platform');
       }
 
       if (platform.getData('type') === 'bounce' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
-        player.setVelocityY(platform.getData('bounce'));
-        console.log('Bounce platform');
+        if (player.body.touching.left ==false && player.body.touching.right == false){
+          player.setVelocityY(velocity(platform.getData('bounce')));
+        //console.log('BounceGank platform');
+        }
       }
 
       if (platform.getData('type') === 'bouncegank' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
-        player.setVelocityY(platform.getData('bounce'));
-        console.log('BounceGank platform');
+        if (player.body.touching.left != true && player.body.touching.right != true){
+          player.setVelocityY(velocity(platform.getData('bounce')));
+        //console.log('BounceGank platform');
+        }
       }
 
       if (platform.getData('type') === 'gank' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
-        console.log('Gank platform');
+        //console.log('Gank platform');
+        if (player.body.touching.down || player.body.touching.up){
+          player.setPosition(platform.x, player.y);
+        }
       }
+
+      if (platform.getData('type') === 'vertgank' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
+        //console.log('Gank platform');
+        //player.setPosition(player.x, platform.y - player.height *2);
+      }
+
+      // the key collection
+      if (platform.getData('type') === 'key' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
+        KeyFollow = true;
+        //console.log('BounceGank platform');
+      }
+
+      // key follows the player once collected
+      if (platform.getData('type') === 'key'){
+        if (KeyFollow){
+            this.tweens.add({
+              targets: platform,
+              x: player.x - player.width*2,
+              y: player.y,
+              yoyo: true,
+              repeat: 1,
+              duration: 50,
+              ease: 'Sine.easeInOut'
+            }); 
+        } else {
+            platform.setPosition(getPixCord(platform.getData('x'), 1).x, getPixCord(1, platform.getData('y')).y );
+        }
+      }
+
+      if (platform.getData('type') === 'coin' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())){
+        score ++;
+        platform.destroy();
+        
+      }
+
+      if (platform.getData('type') === 'coin'){
+        platform.body.checkCollision.none = true;
+      }
+
+      if (platform.getData('type') === 'spikes' && Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), platform.getBounds())) {
+        playerDie();
+      }
+
+      console.log(player.x);
 
       try{
         platform.body.reset();
       }
 
       catch {
-        console.log(" o  shit");
+        
       }
-
     });
 
-    // Trigger the dust effect when the player jumps
-    if (cursors.up.isDown && player.body.touching.down) {
-      this.dustEmitter.setPosition(player.x, player.y + player.height / 2); // Set the position at player's feet
-      this.dustEmitter.explode(); // Trigger the emitter
-      player.setVelocityY(-300);
-    }
-
-    // Trigger the dust effect when   the player runs
-    if (cursors.left.isDown) {
-      player.setVelocityX(-160);
-      player.anims.play("left", true);
-
-      if (player.body.touching.down) {
-        this.dustEmitter.setPosition(
-          player.x + player.width / 2,
-          player.y + player.height / 2
-        ); // Position the emitter behind the player
-        this.dustEmitter.explode();
-      }
-    }
-
-    // Trigger the dust effect when   the player runs
-    else if (cursors.right.isDown) {
-      player.setVelocityX(160);
-      player.anims.play("right", true);
-
-      if (player.body.touching.down) {
-        this.dustEmitter.setPosition(
-          player.x - player.width / 2,
-          player.y + player.height / 2
-        ); // Position the emitter behind the player
-        this.dustEmitter.explode();
-      }
-    } else {
-      player.setVelocityX(0);
-      player.anims.play("idle", true);
-    }
-
+    // special things ___________________________________________________
+    
     //upside down gravity
-    if (player.y < 520) {
-      player.setGravityY(-1600);
+    if (player.y < getPixCord(2, 10).y) {
+      player.setVelocityY(player.body.velocity.y + velocity(-25));
       player.flipY = true;
-    } else if (player.y > 520) {
+    } else if (player.y > getPixCord(2, 10).y) {
       player.setGravityY(0);
       player.flipY = false;
     }
 
+    console.log(player.body.velocity);
+
     //death counter and reset
-    if (player.y > 850 || player.x < -5 || player.x > 1519 || player.y < -5) {
-      player.setPosition(50, 770);
-      death++;
-      player.setVelocity(0);
-    }
+    if (player.y > gameHeight || player.x < -5 || player.x > gameWidth || player.y < -5 || cursors.space.isDown) {
+      playerDie();
 
-    //debug flying with shift
-    if (cursors.up.shiftKey) {
-      player.body.setVelocity(0);
-
-      if (cursors.left.isDown) {
-        player.body.setVelocityX(-300);
-      } else if (cursors.right.isDown) {
-        player.body.setVelocityX(300);
-      }
-
-      if (cursors.up.isDown) {
-        player.body.setVelocityY(-300);
-      } else if (cursors.down.isDown) {
-        player.body.setVelocityY(300);
+      if(cursors.space.isDown != true){
+        death++;
       }
     }
 
-    /*
-
-    //gank movement
-    if (gank.x >= 1140) {
-      gank.setVelocityX(-75);
-    } else if (gank.x <= 900) {
-      gank.setVelocityX(75);
-    }
-    if (gank2.x >= 1400) {
-      gank2.setVelocityX(-50);
-    } else if (gank2.x <= 1260) {
-      gank2.setVelocityX(50);
-    }
-    if (gank3.x >= 1400) {
-      gank3.setVelocityX(-125);
-    } else if (gank3.x <= 1000) {
-      gank3.setVelocityX(125);
-    }
-    if (gank4.x >= 860) {
-      gank4.setVelocityX(-55);
-    } else if (gank4.x <= 700) {
-      gank4.setVelocityX(55);
+    if (move.y > gameHeight || move.x < -5 || move.x > gameWidth || move.y < -5 || cursors.space.isDown) {
+      move.setPosition(getPixCord(10, 2).x, getPixCord(10, 2).y );
+      move.setVelocity(0);
     }
 
-
-    //vertgank movement
-    if (vertgank.y >= 830) {
-      vertgank.setVelocityY(-75);
-    } else if (vertgank.y <= 690) {
-      vertgank.setVelocityY(75);
+    try{
+      if (move.body.touching.right && player.body.touching.left) {
+        move.setVelocityX(velocity(-80));
+      } else if (player.body.touching.right && move.body.touching.left) {
+        move.setVelocityX(velocity(80));
+      } else {
+        move.setVelocityX(0);
+      }
     }
 
-     */ 
-
-    //bounceGank
-    if (bounceGank.x <= 300) {
-      bounceGank.setVelocityX(55);
-    } else if (bounceGank.x >= 500) {
-      bounceGank.setVelocityX(-55);
-    }
-
-    if (move.body.touching.right && player.body.touching.left) {
-      move.setVelocityX(-80);
-    } else if (player.body.touching.right && move.body.touching.left) {
-      move.setVelocityX(80);
-    } else {
-      move.setVelocityX(0);
+    catch{
+      console.log("aaaahhhhhhhhhh");
     }
 
     //Gank and bounce and ice end --------------------------------------------------------
 
-    //reset char to spawn
-    if (cursors.space.isDown) {
-      player.setPosition(50, 770);
-      player.setVelocity(0);
-    }
-
     //player jump
     if (cursors.up.isDown && player.body.touching.down) {
-      player.setVelocityY(-300);
-    } else if (cursors.up.isDown && player.y < 550 && player.body.touching.up) {
-      player.setVelocityY(300);
+      player.setVelocityY(velocity(-300));
+      this.dustEmitter.setPosition(player.x, player.y+player.height*0.4);
+      this.dustEmitter.explode(10);
+      
+    } else if (cursors.up.isDown && player.y < getPixCord(2, 10).y && player.body.touching.up) {
+      player.setVelocityY(velocity(300));
+      this.dustEmitter.setPosition(player.x, player.y);
+      this.dustEmitter.explode(10);
     }
+
     //player Walk left
     else if (cursors.left.isDown) {
-      player.setVelocityX(-160);
+      player.setVelocityX(velocity(-160));
       player.anims.play("left", true);
+
+      if (player.body.touching.down){
+        this.dustEmitter.setPosition(player.x+ player.width/2, player.y+player.height*0.8);
+        this.dustEmitter.explode();
+      }
     }
 
     //player Walk right
     else if (cursors.right.isDown) {
-      player.setVelocityX(160);
+      player.setVelocityX(velocity(160));
       player.anims.play("right", true);
+
+      if (player.body.touching.down){
+        this.dustEmitter.setPosition(player.x- player.width/2, player.y+player.height*0.8);
+        this.dustEmitter.explode();
+      }
     }
 
     //player idle
@@ -636,20 +959,50 @@ document.addEventListener('DOMContentLoaded', () => {
       player.anims.play("idle", true);
     }
 
+    //debug flying with shift
+    if (cursors.up.shiftKey) {
+      player.body.setVelocityY(-10);
+
+      if (cursors.left.isDown) {
+        player.body.setVelocityX(velocity(-500));
+      }
+
+      if (cursors.right.isDown) {
+        player.body.setVelocityX(velocity(500));
+      }
+
+      if (cursors.up.isDown) {
+        player.body.setVelocityY(velocity(-500));
+      }
+      if (cursors.down.isDown) {
+        player.body.setVelocityY(velocity(500));
+      }
+      
+    }
+
     //player movement end------------------------
 
     var pointer = this.input.activePointer;
     let elapsedTime = Math.floor((this.time.now - startTime) / 1000);
 
-    DebugText_XandY.setText(["x: " + pointer.worldX, "y: " + pointer.worldY]);
+    if (debugMode){
 
-    DebugText_XandYPlayer.setText(["x: " + player.x, "y: " + player.y]);
+      DebugText_XandY.setText(["x: " + Math.round(pointer.worldX), "y: " + Math.round(pointer.worldY)]);
+      DebugText_XandYPlayer.setText(["x: " + Math.round(player.x), "y: " + Math.round(player.y)]);
+
+      DebugText_XandY_Grid.setText(["x: " + Math.round(pointer.worldX/gridBlockWidth +1) , "y: " + Math.round(pointer.worldY/gridBlockHeight +1) ]);
+  
+    }
 
     DebugText_DeathCount.setText("Deaths : " + death);
 
-    DebugText_Timer.setText("Time: " + elapsedTime);
+    DebugText_Timer.setText("Time: " + elapsedTime + "        Score: " + score);
+
+    DebugText_CurrentLevel.setText("Current Level: " + CurrentLevel + " \nKey collected: " + KeyFollow);
   
   }
+
 });
+
 
 

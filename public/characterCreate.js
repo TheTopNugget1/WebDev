@@ -80,8 +80,6 @@ function saveCharacter() {
   .catch((error) => {
     console.error('Error:', error);
   });
-
-  alert('Image has been saved.')
   
 }
 
@@ -103,7 +101,7 @@ function ChangePant(Pant){
 function randomizeCharacter() {
   const colours = ['Red', 'Yellow', 'Blue', 'Green', 'Purple', 'White'];
   const hats = ['TopHat', 'FezHat', 'PartyHat', 'WitchHat', 'PartyHat', 'BowHat', 'Void'];
-  const pants = ['HighVisPant', 'Void', 'Void'];
+  const pants = ['HighVisPant', 'TutuPant', 'Void'];
 
   // Select a random color
   const randomColour = colours[Math.floor(Math.random() * colours.length)];

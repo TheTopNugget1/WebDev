@@ -27,16 +27,16 @@
   </div>
 
   <div class="character-options">
-    <button id="ColourOption">Colours</button>
-    <button id="HatOption">Hats</button>
-    <button id="PantOption">Pants</button>
+    <button class="btn" id="ColourOption">Colours</button>
+    <button class="btn" id="HatOption">Hats</button>
+    <button class="btn" id="PantOption">Pants</button>
   </div>
   
   <div class="sub-options">
 
     <div id="colourButtonGroup" class="options" style="display:none;">
 
-      <button onclick="ChangeColour('Red')">Red
+      <button onclick="ChangeColour('Red')" >Red
 
         <img src="assets/items/Red.png" 
         style="position: absolute;">
@@ -122,16 +122,6 @@
 
       </button>
 
-      <button onclick="ChangeHat('PartyHat')">Cat Ears
-        
-        <img src="assets/Char.png" 
-        style="position: absolute;">
-
-        <img src="assets/items/PartyHat.png" 
-        style="position: absolute;">
-
-      </button>
-
       <button onclick="ChangeHat('BowHat')">Bow
         
         <img src="assets/Char.png" 
@@ -163,25 +153,16 @@
 
       </button>
 
-      <button onclick="ChangePant('Void')">Tutu
+      <button onclick="ChangePant('TutuPant')">Tutu
 
         <img src="assets/Char.png" 
         style="position: absolute;">
 
-        <img src="assets/items/Void.png" 
+        <img src="assets/items/TutuPant.png" 
         style="position: absolute;">
 
       </button>
 
-      <button onclick="ChangePant('Void')">Add idea Here
-
-        <img src="assets/Char.png" 
-        style="position: absolute;">
-
-        <img src="assets/items/Void.png" 
-        style="position: absolute;">
-
-      </button>
 
       <button onclick="ChangePant('Void')">None
 
@@ -198,9 +179,11 @@
 
   <div>
     <button class="buttonCharacter" onclick="randomizeCharacter()">Randomize</button>
-    <button class="buttonCharacter" onclick="saveCharacter()">Save Character</button>
+    <button class="buttonCharacter" onclick="saveCharacter()">Save</button>
     <button class="buttonCharacter" onclick="Reset()">Reset</button>
   </div>
+
+  <div class="oogabooga"></div>
 
   <a href="game.html" class="button">Play Game</a>
   <a href="index.html" class="button">Back to Main Page</a>
