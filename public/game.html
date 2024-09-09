@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>ColourQuest Game</title>
+  <link rel="stylesheet" href="gameStyle.css">
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+  <script src="app.mjs" type="module" defer></script>
+  <script src="SelectedImage.js" defer></script>
+</head>
+
+<body class="game">
+  <div class="button-container" id="nutbutter">
+
+    <button class="btn" id="find-image-button" onclick="runRandomBlockScript()"> Random Block Style</button>
+
+    <select id="platformStyleDropdown" class="butnutter">
+      <option value="1">Select A Game Style</option>
+      <option value="1">The Basic style</option>  
+      <option value="2">The Jungle style</option>
+      <option value="3">The Far Future style</option>
+      <option value="4">The Block style</option>
+    </select>
+
+
+    <button class="btn" onclick = "window.location.href='index.html';"> Back to Main Page</button>
+
+  </div>
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+      const platformStyleDropdown = document.getElementById('platformStyleDropdown');
+
+      platformStyleDropdown.addEventListener('change', function () {
+        const selectedStyle = this.value;
+        updatePlatformStyles(selectedStyle);
+      });
+
+    });
+
+    function updatePlatformStyles(style) {
+      fetch(`/find-selected-style?style=${style}`)
+        .then(response => response.text())
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+    
+
+    function runLargestCharScript() {
+      fetch('/find-largest-image')
+        .then(response => response.text())
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
+    function runRandomCharScript() {
+      fetch('/find-random-image')
+        .then(response => response.text())
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
+    function runRandomBlockScript() {
+      fetch('/find-random-block')
+        .then(response => response.text())
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
+    function runLargestBlockScript() {
+      fetch('/find-largest-block')
+        .then(response => response.text())
+        .then(location.reload())
+        .catch(error => console.error('Error:', error));
+    }
+
+
+  </script>
+  
+</body>
+
+</html>
