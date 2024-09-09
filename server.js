@@ -1,12 +1,7 @@
-// -------------------------------
-// pgt generated 75%
-// Hugh generated 25%
-// James generated 0%
-// Hugh Understanding 100%
-// James Understanding 0%
-// ------------------------------
 
-const express = require('express');
+const express = require('express'); // The express module for the server
+const { readFile } = require('fs'); // 
+const bodyParser = require('body-parser');
 const fs = require('fs').promises;
 const path = require('path');
 
@@ -15,7 +10,177 @@ const port = 3000;
 
 app.use(express.static('public'));
 
+app.use(bodyParser.json({ limit: '10mb' }));
 
+app.post('/save-image', (req, res) => {
+  const imageData = req.body.image.replace(/^data:image\/png;base64,/, "");
+  const buffer = Buffer.from(imageData, 'base64');
+
+  fs.writeFile('public/assets/character.png', buffer, (err) => {
+    if (err) {
+      console.error('Failed to save image:', err);
+      return res.status(500).send({ message: 'Failed to save image' });
+    }
+    res.send({ message: 'Image saved successfully' });
+  });
+});
+
+function randomNumber() {
+  randomNum = Math.floor(Math.random() * 4) + 1;
+  return randomNum
+}
+
+async function findSelectedStyle(dir, style) {
+  try {
+    const files = await fs.readdir(dir);
+    const chosenBlocks = [];
+
+    console.log(style);
+
+    // Filter files that end with the style number
+    files.forEach(file => {
+      const ext = path.extname(file);
+      const base = path.basename(file, ext);
+
+      let match = base.match(/^(.*?)(\d+)$/);
+      if (match) {
+        const number = match[2];
+        if (number === style) {
+          chosenBlocks.push(file);
+        }
+      }
+    });
+
+    if (chosenBlocks.length > 0) {
+      console.log("Blocks found for style", style, ":", chosenBlocks);
+      return chosenBlocks;
+    } else {
+      console.log("No matching blocks found for style:", style);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error reading directory:", error);
+    return null;
+  }
+}
+
+async function findRandomBlock(dir) {
+  try {
+    const files = await fs.readdir(dir);
+    const chosenBlocks = [];
+    const randNum = randomNumber();
+
+  
+    files.forEach(file => {
+      const ext = path.extname(file);
+      const base = path.basename(file, ext);
+
+      let match = base.match(/^(.*?)(\d+)$/);
+      if (match) {
+        const number = match[2];  
+        if (number == randomNum) {
+          chosenBlocks.push(file);
+          console.log(chosenBlocks);
+
+        }
+      }
+    });
+
+    if (chosenBlocks.length > 0) {
+      console.log("Random blocks found:", chosenBlocks);
+      return chosenBlocks;
+    } 
+    else {
+      console.log("No matching blocks found.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error reading directory:", error);
+    return null;
+  }
+}
+
+async function updateFileLine(filePath, lineNumber, content) {
+  try {
+    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const lines = fileContent.split('\n');
+    lines[lineNumber] = content;
+    await fs.writeFile(filePath, lines.join('\n'), 'utf-8');
+  } catch (error) {
+    console.error("Error updating file:", error);
+  }
+}
+
+app.get('/find-selected-style', async (req, res) => {
+  const dir = './public/assets/blocks'; // Replace with your directory path
+  const style = req.query.style;
+  const StyleBlocks = await findSelectedStyle(dir, style);
+
+  if (StyleBlocks && StyleBlocks.length > 0) {  
+    const blockList = StyleBlocks.map(block => `"${block}"`).join(', ');
+    await updateFileLine('./public/SelectedImage.js', 2, `export const ChosenBlock = [${blockList}];`);
+    res.send(`Random blocks found and saved: \n ${blockList}`);
+  } else {
+    res.send("No matching blocks found.");
+  }
+});
+
+app.get('/find-random-block', async (req, res) => {
+  
+  const dir = './public/assets/blocks'; // Replace with your directory path
+  const randomBlocks = await findRandomBlock(dir);
+
+  if (randomBlocks && randomBlocks.length > 0) {
+    const blockList = randomBlocks.map(block => `"${block}"`).join(', ');
+    await updateFileLine('./public/SelectedImage.js', 2, `export const ChosenBlock = [${blockList}];`);
+    res.send(`Random blocks found and saved: \n ${blockList}`);
+
+  } else {
+    res.send("No matching blocks found.");
+  }
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'game.html'));
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+
+// obsolete
+async function findRandomImage(dir) {
+  try {
+    const files = await fs.readdir(dir);
+    let images = [];
+
+    for (const file of files) {
+      const ext = path.extname(file);
+      const base = path.basename(file, ext);
+
+      const match = base.match(/^char(\d+)$/);
+      if (match) {
+        images.push(file); // Add matching file to images array
+      }
+    }
+
+    if (images.length > 0) {
+      const randomIndex = Math.floor(Math.random() * images.length);
+      const randomImage = images[randomIndex]; // Pick a random image from the array
+      console.log("Random image file found:", randomImage);
+      return randomImage;
+    } else {
+      console.log("No matching images found.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error reading directory:", error);
+    return null;
+  }
+}
+
+// obsolete
 async function findLargestImage(dir) {
   try {
     const files = await fs.readdir(dir);
@@ -50,6 +215,7 @@ async function findLargestImage(dir) {
   }
 }
 
+// obsolete
 async function findLargestBlock(dir) {
   try {
     const files = await fs.readdir(dir);
@@ -63,6 +229,8 @@ async function findLargestBlock(dir) {
     let maxFloatNumber = -1;
     let maxGankNumber = -1;
     let maxIceNumber = -1;
+    let maxDoorNumber = -1;
+    let maxQackNumber = -1;
     let largestFlat = null;
     let largestFlipped = null;
     let largestBcl = null;
@@ -73,6 +241,8 @@ async function findLargestBlock(dir) {
     let largestFloat = null;
     let largestGank = null;
     let largestIce = null;
+    let largestDoor = null;
+    let largestQack = null;
 
     for (const file of files) {
       const ext = path.extname(file);
@@ -157,6 +327,7 @@ async function findLargestBlock(dir) {
           largestFloat = file;
         }
       }
+    
 
       match = base.match(/^gank(\d+)$/);
       if (match) {
@@ -177,19 +348,42 @@ async function findLargestBlock(dir) {
           largestIce = file;
         }
       }
+
+      match = base.match(/^Door(\d+)$/);
+      if (match) {
+        const number = parseInt(match[1], 10);
+
+        if (number > maxIceNumber) {
+          maxDoorNumber = number;
+          largestDoor = file;
+        }
+      }
+
+      match = base.match(/^Qack(\d+)$/);
+      if (match) {
+        const number = parseInt(match[1], 10);
+
+        if (number > maxIceNumber) {
+          maxQackNumber = number;
+          largestQack = file;
+        }
+      }
     }
 
     const largestBlocks = [];
-    if (largestFlat) largestBlocks.push(largestFlat);
-    if (largestFlipped) largestBlocks.push(largestFlipped);
     if (largestBcl) largestBlocks.push(largestBcl);
     if (largestBcld) largestBlocks.push(largestBcld);
     if (largestBcr) largestBlocks.push(largestBcr);
     if (largestBcrd) largestBlocks.push(largestBcrd);
-    if (largestMove) largestBlocks.push(largestMove);
+    if (largestFlat) largestBlocks.push(largestFlat);
+    if (largestFlipped) largestBlocks.push(largestFlipped);
     if (largestFloat) largestBlocks.push(largestFloat);
     if (largestGank) largestBlocks.push(largestGank);
     if (largestIce) largestBlocks.push(largestIce);
+    if (largestMove) largestBlocks.push(largestMove);
+    if (largestDoor) largestBlocks.puch(largestDoor);
+    if (largestQack) largestBlocks.puch(largestQack);
+
 
     if (largestBlocks.length > 0) {
       console.log("Largest blocks found:", largestBlocks);
@@ -204,133 +398,7 @@ async function findLargestBlock(dir) {
   }
 }
 
-async function findRandomBlock(dir) {
-  try {
-    const files = await fs.readdir(dir);
-    let blocks = {};
-
-    for (const file of files) {
-      const ext = path.extname(file);
-      const base = path.basename(file, ext);
-
-      let match = base.match(/^(flat|flipped|bcl|bcld|bcr|bcrd|move|gank|float|ice)(\d+)$/);
-      if (match) {
-        const type = match[1];
-        const number = match[2];
-
-        if (!blocks[number]) {
-          blocks[number] = {
-            flat: null,
-            flipped: null,
-            bcl: null,
-            bcld: null,
-            bcr: null,
-            bcrd: null,
-            move: null,
-            gank: null,
-            float: null,
-            ice: null
-          };
-        }
-
-        if (type === 'flat') {
-          blocks[number].flat = file;
-        } else if (type === 'flipped') {
-          blocks[number].flipped = file;
-        } else if (type === 'bcl') {
-          blocks[number].bcl = file;
-        } else if (type === 'bcld') {
-          blocks[number].bcld = file;
-        } else if (type === 'bcr') {
-          blocks[number].bcr = file;
-        } else if (type === 'bcrd') {
-          blocks[number].bcrd = file;
-        } else if (type === 'move') {
-          blocks[number].move = file;
-        } else if (type === 'gank') {
-          blocks[number].gank = file;
-        } else if (type === 'ice') {
-          blocks[number].ice = file;
-        } else if (type === 'float') {
-          blocks[number].float = file;
-        }
-
-      }
-    }
-
-    const blockNumbers = Object.keys(blocks);
-    if (blockNumbers.length > 0) {
-      const randomIndex = Math.floor(Math.random() * blockNumbers.length);
-      const randomNumber = blockNumbers[randomIndex];
-      const randomBlock = blocks[randomNumber];
-
-      const chosenBlocks = [];
-      if (randomBlock.flat) chosenBlocks.push(randomBlock.flat);
-      if (randomBlock.flipped) chosenBlocks.push(randomBlock.flipped);
-      if (randomBlock.bcl) chosenBlocks.push(randomBlock.bcl);
-      if (randomBlock.bcld) chosenBlocks.push(randomBlock.bcld);
-      if (randomBlock.bcr) chosenBlocks.push(randomBlock.bcr);
-      if (randomBlock.bcrd) chosenBlocks.push(randomBlock.bcrd);
-      if (randomBlock.move) chosenBlocks.push(randomBlock.move);
-      if (randomBlock.float) chosenBlocks.push(randomBlock.float);
-      if (randomBlock.gank) chosenBlocks.push(randomBlock.gank);
-      if (randomBlock.ice) chosenBlocks.push(randomBlock.ice);
-
-      if (chosenBlocks.length > 0) {
-        console.log("Random blocks found:", chosenBlocks);
-        return chosenBlocks;
-      }
-    } else {
-      console.log("No matching blocks found.");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error reading directory:", error);
-    return null;
-  }
-}
-
-async function findRandomImage(dir) {
-  try {
-    const files = await fs.readdir(dir);
-    let images = [];
-
-    for (const file of files) {
-      const ext = path.extname(file);
-      const base = path.basename(file, ext);
-
-      const match = base.match(/^char(\d+)$/);
-      if (match) {
-        images.push(file); // Add matching file to images array
-      }
-    }
-
-    if (images.length > 0) {
-      const randomIndex = Math.floor(Math.random() * images.length);
-      const randomImage = images[randomIndex]; // Pick a random image from the array
-      console.log("Random image file found:", randomImage);
-      return randomImage;
-    } else {
-      console.log("No matching images found.");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error reading directory:", error);
-    return null;
-  }
-}
-
-async function updateFileLine(filePath, lineNumber, content) {
-  try {
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    const lines = fileContent.split('\n');
-    lines[lineNumber] = content;
-    await fs.writeFile(filePath, lines.join('\n'), 'utf-8');
-  } catch (error) {
-    console.error("Error updating file:", error);
-  }
-}
-
+// obsolete
 app.get('/find-largest-image', async (req, res) => {
   const dir = './public/assets'; // Replace with your directory path
   const largestImage = await findLargestImage(dir);
@@ -342,6 +410,7 @@ app.get('/find-largest-image', async (req, res) => {
   }
 });
 
+// obsolete
 app.get('/find-largest-block', async (req, res) => {
   const dir = './public/assets/blocks'; // Replace with your directory path
   const largestBlocks = await findLargestBlock(dir);
@@ -355,6 +424,7 @@ app.get('/find-largest-block', async (req, res) => {
   }
 });
 
+// obsolete
 app.get('/find-random-image', async (req, res) => {
   const dir = './public/assets'; // Replace with your directory path
   const randomImage = await findRandomImage(dir);
@@ -364,25 +434,4 @@ app.get('/find-random-image', async (req, res) => {
   } else {
     res.send("No matching images found.");
   }
-});
-
-app.get('/find-random-block', async (req, res) => {
-  const dir = './public/assets/blocks'; // Replace with your directory path
-  const randomBlocks = await findRandomBlock(dir);
-
-  if (randomBlocks && randomBlocks.length > 0) {
-    const blockList = randomBlocks.map(block => `"${block}"`).join(', ');
-    await updateFileLine('./public/SelectedImage.js', 2, `export const ChosenBlock = [${blockList}];`);
-    res.send(`Random blocks found and saved: \n ${blockList}`);
-  } else {
-    res.send("No matching blocks found.");
-  }
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'game.html'));
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });
