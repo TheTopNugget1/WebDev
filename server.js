@@ -21,8 +21,10 @@ app.post('/save-image', (req, res) => {
       console.error('Failed to save image:', err);
       return res.status(500).send({ message: 'Failed to save image' });
     }
-    res.send({ message: 'Image saved successfully' });
+    res.send({ message: 'Image saved successfully'});
   });
+
+  console.log(`Image saved successfully`);
 });
 
 function randomNumber() {
@@ -80,8 +82,6 @@ async function findRandomBlock(dir) {
         const number = match[2];  
         if (number == randomNum) {
           chosenBlocks.push(file);
-          console.log(chosenBlocks);
-
         }
       }
     });
@@ -112,7 +112,7 @@ async function updateFileLine(filePath, lineNumber, content) {
 }
 
 app.get('/find-selected-style', async (req, res) => {
-  const dir = './public/assets/blocks'; // Replace with your directory path
+  const dir = './public/assets/blocks'; 
   const style = req.query.style;
   const StyleBlocks = await findSelectedStyle(dir, style);
 
@@ -127,7 +127,7 @@ app.get('/find-selected-style', async (req, res) => {
 
 app.get('/find-random-block', async (req, res) => {
   
-  const dir = './public/assets/blocks'; // Replace with your directory path
+  const dir = './public/assets/blocks'; 
   const randomBlocks = await findRandomBlock(dir);
 
   if (randomBlocks && randomBlocks.length > 0) {

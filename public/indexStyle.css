@@ -1,0 +1,190 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#big-video-wrap {
+  opacity: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
+  z-index: -1; /* Ensure it stays at the back layer */
+  overflow: hidden;
+}
+
+#big-video-wrap video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the video covers the full area without distortion */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #212121;
+  line-height: 1.6; /* add some line height for better readability */
+  height: 100%;
+}
+
+h1 {
+  color: white; 
+  font-size: 36px;
+  font-weight: bold; /* make headings bold */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* add some text shadow */
+}
+
+h2 {
+  padding-right: 20px;
+  font-size: 24px; /* add font size for h2 */
+  font-style: italic; /* add some italic style to h2 */
+  color: white; 
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  margin: 10px;
+  padding: 5px;
+  background-color: rgb(67, 64, 64);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* add some depth */
+  border: 1px solid #ccc; /* add a subtle border */
+}
+
+.title {
+  opacity: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  background-color: rgb(67, 64, 64); /* add a semi-transparent background */
+  padding: 10px;
+  border-radius: 10px;
+}
+
+a{
+  opacity: 50%;
+}
+
+img {
+  width: 300px; /* adjust image width */
+  height: 300px; /* adjust image height */
+  border-radius: 10px; /* add some rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* add some depth */
+  object-fit: cover; /* ensure image is covered */
+  transition: transform 0.5s ease-in-out; /* add some transition effect */
+  opacity: 100%;
+}
+
+
+img:hover {
+  transform: scale(1.1); /* add some hover effect */
+}
+
+.mini {
+  height: 30px;
+  width: auto;
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* add some depth */
+}
+
+@media (min-width: 1101px) { /* computer */
+
+  .title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: auto;
+  }
+
+  h1 {
+    width: 60%;
+    margin-right: 20px;
+    margin-left: 50px;
+    font-size: 100px;
+  }
+
+  .title img {
+    height: 260px;
+    width: 500px;
+    margin-left: 20px;
+    margin-right: 10px;
+    background-color: #212121;;
+  }
+
+  .main {
+    width: auto;
+    font-size: larger;
+    padding: 20px; /* add some padding for better spacing */
+  }
+
+  h2 {
+    padding-right: 20px;
+    font-size: 40px; /* add font size for h2 */
+    font-style: italic; /* add some italic style to h2 */
+  }
+}
+
+@media (max-width: 1100px) { /* iPad */
+  
+  .title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: auto;
+    height: 200%;
+  }
+
+  h1 {
+    width: 60%;
+    margin-right: 20px;
+    margin-left: 50px;
+    font-size: 50px;
+  }
+
+  .title img {
+    height: 100;
+    width: auto;
+    margin-left: 20px;
+    margin-right: 10px;
+    background-color: #212121;;
+  }
+
+  .main {
+    width: auto;
+    font-size: larger;
+    padding: 20px; /* add some padding for better spacing */
+  }
+
+  h2 {
+    padding-right: 20px;
+    font-size: 40px; /* add font size for h2 */
+    font-style: italic; /* add some italic style to h2 */
+  }
+}
+
+@media (max-width: 767px) { /* iPhone size */
+
+  .title{
+    height: auto;
+  }
+
+  .title h1{
+    display: none;
+  }
+  .title a{
+    width: 100%;
+    height: auto;
+  }
+  .title img{
+    width: 100%;
+    padding: 0; 
+    margin: 0;
+  }
+}
